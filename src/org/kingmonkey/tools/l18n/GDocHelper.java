@@ -126,10 +126,11 @@ public class GDocHelper {
             InputStream localizationFile = service.files().export(this.config.file_id, MIME_TYPE)
                                                           .executeMediaAsInputStream();
             CSVReader csvReader = new CSVReader(new InputStreamReader(localizationFile));
+            final List<String[]> list = csvReader.readAll();
 
             for (int i = 0; i < this.config.languages.length; ++i) {
                 String lang = this.config.languages[i];
-                processLanguage(csvReader, lang, i+1);
+                processLanguage(list, lang, i+1);
             }
 
         } catch (IOException e) {
@@ -137,15 +138,19 @@ public class GDocHelper {
         }
     }
 
-    private void processLanguage(CSVReader csvReader, String lang, final int index) throws FileNotFoundException, UnsupportedEncodingException {
+    private void processLanguage(final List<String[]> list, String lang, final int index) throws FileNotFoundException, UnsupportedEncodingException {
         String filename = Objects.equals(lang, this.config.default_lang) ? "localization.properties" : "localization_"+lang+".properties";
         StringBuilder props = new StringBuilder();
 
         try {
-            final List<String[]> list = csvReader.readAll();
             for (String[] line : list) {
                 if (line == null) {
                     break;
+                }
+
+                if (index > line.length -1) {
+                    System.out.println("WARNING: Missing column for " + lang);
+                    continue;
                 }
 
                 String key = line[0];

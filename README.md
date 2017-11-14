@@ -26,6 +26,8 @@ Find config.json on the resources folder.
 Change the information accordingly.
 Notice `file_id`. You need to get the file id from your GDoc url.
 
+The order of the languages on the `languages` property should be the same of the columns in the GDoc
+
 ## Run from Source
 Simply run:
 ```bash
