@@ -1,0 +1,9 @@
+{
+  "application_name": "test",
+  "file_id": "##########################",
+  "languages": [
+    "en", "es", "pt"
+  ],
+  "default_lang": "en",
+  "destination_folder": "resources"
+}
